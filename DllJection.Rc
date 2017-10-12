@@ -1,0 +1,22 @@
+#define IDM_AepKill 10001
+#define IDM_LOAD 10004
+#define IDR_VERSION1 1
+#define IDR_MENU1 10000
+#define IDM_AUTODO 10002
+#define IDM_FLAG 10003
+#define IDM_ABOUT 10005
+#define IDM_EXIT 10006
+
+#include "D:/akfs/RadASM/masm32/include/resource.h"
+
+IDR_MENU1 MENU
+BEGIN
+  POPUP "AepKill"
+  BEGIN
+    MENUITEM "√Î…±",IDM_AUTODO
+    MENUITEM "≤Â∆Ï",IDM_FLAG
+    MENUITEM "πÿ”⁄",IDM_ABOUT
+    MENUITEM "ÕÀ≥ˆ",IDM_EXIT
+  END
+END
+
