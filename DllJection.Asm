@@ -30,11 +30,12 @@ szDllUninstall	db	'Dll已经卸载！',0
 szRepProc	db	'替换窗口过程失败！',0
 DllHaveJection	db	'Dll已经注入，请勿重复操作！',0
 szGame		db	'扫雷',0
-szInfo		db	'Make By ：AepKill',0
+szInfo		db	'Make By ：AEPKILL',0
 szMenu		db	'启动',0
 szFormat	db	'%x',0
 szFormat2	db	'X:%d  Y:%d',0
-PanAddress	dd	1005361h
+mineAddress	dd	1005361h
+
 .data?
 hDll		dd	?
 FirstFlag	dd	?
@@ -42,7 +43,7 @@ hInstance	dd	?
 hwnd		dd	?
 hMenu		dd	?
 OldFunProc	FunProc		?
-ChickCall	FunProc2	?
+ClickCall	FunProc2	?
 MakeFlag	FunProc2	?
 szBuffer	db	2000	dup(?)
 .code
@@ -55,8 +56,7 @@ AutoDo	proc uses esi edi ecx,mark
 	.while @y<edi
 		mov @x,0
 		.while @x<32
-			mov esi,PanAddress
-			
+			mov esi,mineAddress
 			mov eax,32
 			mul @y
 			add eax,@x
@@ -72,7 +72,7 @@ AutoDo	proc uses esi edi ecx,mark
 				push eax
 				
 				.if mark==0 && byte ptr [esi]==0fh
-					call ChickCall
+					call ClickCall
 				.elseif mark==1 && byte ptr [esi]==8fh
 					call MakeFlag
 				.endif
@@ -158,7 +158,7 @@ DllEntry	proc hDllInstance,dwReason,dwReserved;reason理由
 		
 		invoke SetWindowLong,hwnd,GWL_WNDPROC,offset FilterProc;替换窗口过程
 		mov OldFunProc,01001BC9h;旧的dialog过程地址
-		mov ChickCall,1003512h;扫雷Call
+		mov ClickCall,1003512h;扫雷Call
 		mov MakeFlag,0100374fh;插旗Call
 		invoke wsprintf,offset szBuffer,offset szFormat,eax
 		invoke MessageBox,NULL,offset szBuffer,offset szTips,MB_OK;显示SetWindowLong返回的地址。
